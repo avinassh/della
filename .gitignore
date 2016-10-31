@@ -45,3 +45,6 @@ venv/
 db.sqlite3
 .envrc
 staticfiles
+
+# PyCharm
+.idea
