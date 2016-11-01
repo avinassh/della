@@ -39,7 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'della',
-    'della.user_manager'
+    'della.user_manager',
+    'della.gallery'
 ]
 
 MIDDLEWARE = [
