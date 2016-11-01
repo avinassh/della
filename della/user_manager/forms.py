@@ -1,7 +1,10 @@
 from django import forms
+from django.forms import ModelForm
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from django.core.validators import RegexValidator
+
+from .models import UserProfile
 
 alphanumericu = RegexValidator(
     regex=r'^[0-9a-zA-Z_]*$',
@@ -22,3 +25,12 @@ class SignupForm(UserCreationForm):
         if email and User.objects.filter(email=email).exists():
                 raise forms.ValidationError(error_message)
         return email
+
+
+class UserProfileForm(ModelForm):
+    first_name = forms.CharField(max_length=30)
+    last_name = forms.CharField(max_length=30)
+
+    class Meta:
+        model = UserProfile
+        exclude = ['is_enabled_exchange', 'user']

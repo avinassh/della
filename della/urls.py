@@ -17,6 +17,7 @@ from django.conf.urls import url, include
 from django.contrib import admin
 
 urlpatterns = [
-    url(r'^users/', include('della.user_manager.urls')),
+    url(r'^users/', include(
+        'della.user_manager.urls', namespace='user_manager')),
     url(r'^admin/', admin.site.urls),
 ]
