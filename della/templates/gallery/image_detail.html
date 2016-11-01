@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block content %}
+title: {{ object.title }}
+
+<img src="/media/{{object.file.name}}">
+
+desc: {{ object.description }}
+
+uploaded by: {{ object.added_by.username }}
+
+{% endblock %}
