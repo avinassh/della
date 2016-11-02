@@ -40,7 +40,8 @@ INSTALLED_APPS = [
 
     'della',
     'della.user_manager',
-    'della.gallery'
+    'della.gallery',
+    'della.inbox',
 ]
 
 MIDDLEWARE = [
