@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+{% for message in object.message_set.all|dictsortreversed:"created_on" %}
+    <p>{{ message.text }} - {{ message.created_on }}</p>
+    <br />
+{% endfor %}
+
+<form action="{% url 'inbox:new-message' object.id %}" method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" value="Submit" />
+</form>
+{% endblock %}
