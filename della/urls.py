@@ -23,6 +23,8 @@ urlpatterns = [
         'della.user_manager.urls', namespace='user_manager')),
     url(r'^gallery/', include(
         'della.gallery.urls', namespace='gallery')),
+    url(r'^messages/', include(
+        'della.inbox.urls', namespace='inbox')),
     url(r'^admin/', admin.site.urls),
 ]
 
