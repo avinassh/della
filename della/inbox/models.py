@@ -24,4 +24,4 @@ class Message(TimeStampMixin):
     text = models.TextField()
 
     sent_by = models.ForeignKey(User)
-    thread = models.ForeignKey(Thread)
+    thread = models.ForeignKey(Thread, related_name='messages')
