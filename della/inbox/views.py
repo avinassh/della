@@ -1,9 +1,9 @@
 from django.views.generic.edit import CreateView
-from django.views.generic import DetailView
+from django.views.generic import DetailView, ListView
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.shortcuts import reverse
-from django.db.models import Q
+from django.db.models import Q, Max
 from django.http import Http404
 
 from .forms import MessageCreateForm
@@ -38,6 +38,19 @@ class MessageCreateView(CreateView):
                 Q(participant_1=user) | Q(participant_2=user))).first()
 
 
+@method_decorator(login_required, name='dispatch')
+class ThreadListView(ListView):
+    model = Thread
+
+    def get_queryset(self):
+        user = self.request.user
+        return Thread.objects.filter(Q(participant_1=user) | Q(
+            participant_2=user)).annotate(
+            last_message_time=Max('messages__created_on')).order_by(
+                '-last_message_time')
+
+
+@method_decorator(login_required, name='dispatch')
 class ThreadDetailView(DetailView):
     model = Thread
     form_class = MessageCreateForm

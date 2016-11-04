@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+
+{% block content %}
+<p>messages</p>
+{% for thread in object_list %}
+    <p>{{ thread.id }} - {{ thread.last_message_time }}</p>
+    <br />
+{% endfor %}
+
+{% endblock %}
