@@ -2,10 +2,9 @@ from django.views.generic.edit import CreateView
 from django.views.generic import DetailView, ListView
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
-from django.shortcuts import reverse
+from django.shortcuts import reverse, get_object_or_404
 from django.db.models import Q, Max
-from django.http import Http404
-from django.shortcuts import get_object_or_404
+from django.http import Http404, JsonResponse
 from django.contrib.auth.models import User
 
 from .forms import MessageCreateForm
@@ -19,6 +18,8 @@ class MessageCreateView(CreateView):
     form_class = MessageCreateForm
 
     def post(self, request, pk, *args, **kwargs):
+        if not request.is_ajax():
+            raise Http404('Haxxeru?')
         self.thread = self._validate_and_get_thread(thread_id=pk)
         if not self.thread:
             raise Http404('Haxxeru?')
@@ -29,7 +30,9 @@ class MessageCreateView(CreateView):
         message = form.save(commit=False)
         message.sent_by = self.request.user
         message.thread = self.thread
-        return super(MessageCreateView, self).form_valid(form)
+        super(MessageCreateView, self).form_valid(form)
+        response = {'status': True, 'pk': self.object.pk}
+        return JsonResponse(response)
 
     def get_success_url(self):
         sender = self.request.user
