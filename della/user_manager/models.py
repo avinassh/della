@@ -20,3 +20,4 @@ class UserProfile(TimeStampMixin):
     wishlist_url = models.URLField(null=True)
 
     user = models.OneToOneField(User)
+    santee = models.OneToOneField(User, related_name='santa', null=True)
