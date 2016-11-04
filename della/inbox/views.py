@@ -32,7 +32,12 @@ class MessageCreateView(CreateView):
         return super(MessageCreateView, self).form_valid(form)
 
     def get_success_url(self):
-        return reverse('inbox:thread-detail', args=(self.thread.id,))
+        sender = self.request.user
+        if self.thread.participant_1 == sender:
+            recipient = self.thread.participant_2
+        else:
+            recipient = self.thread.participant_1
+        return reverse('inbox:thread-detail', args=(recipient.username,))
 
     def _validate_and_get_thread(self, thread_id):
         user = self.request.user
