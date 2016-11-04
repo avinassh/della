@@ -46,6 +46,7 @@ db.sqlite3
 .envrc
 staticfiles
 della/media
+della/static/admin/
 
 # PyCharm
 .idea
