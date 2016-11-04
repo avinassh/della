@@ -5,9 +5,12 @@ from django.utils.decorators import method_decorator
 from django.shortcuts import reverse
 from django.db.models import Q, Max
 from django.http import Http404
+from django.shortcuts import get_object_or_404
+from django.contrib.auth.models import User
 
 from .forms import MessageCreateForm
 from .models import Message, Thread
+from . import inbox_service
 
 
 @method_decorator(login_required, name='dispatch')
@@ -54,6 +57,16 @@ class ThreadListView(ListView):
 class ThreadDetailView(DetailView):
     model = Thread
     form_class = MessageCreateForm
+
+    def get_object(self):
+        user = self.request.user
+        recipient_name = self.kwargs.get('recipient')
+        recipient = get_object_or_404(User, username=recipient_name)
+        participant_1, participant_2 = inbox_service.get_participants(
+            user_1=user, user_2=recipient)
+        thread, _ = Thread.objects.get_or_create(
+            participant_1=participant_1, participant_2=participant_2)
+        return thread
 
     def get_context_data(self, **kwargs):
         context = {}
