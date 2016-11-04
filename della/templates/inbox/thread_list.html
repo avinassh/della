@@ -3,7 +3,7 @@
 {% block content %}
 <p>messages</p>
 {% for thread in object_list %}
-    <p>{{ thread.id }} - {{ thread.last_message_time }}</p>
+    <a href="{% url 'inbox:thread-detail' thread.recipient %}"><p>{{ thread.recipient }} - {{ thread.last_message_time }}</p></a>
     <br />
 {% endfor %}
 

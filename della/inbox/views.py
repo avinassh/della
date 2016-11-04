@@ -33,10 +33,8 @@ class MessageCreateView(CreateView):
 
     def get_success_url(self):
         sender = self.request.user
-        if self.thread.participant_1 == sender:
-            recipient = self.thread.participant_2
-        else:
-            recipient = self.thread.participant_1
+        recipient = inbox_service.get_recipient(
+            thread=self.thread, sender=sender)
         return reverse('inbox:thread-detail', args=(recipient.username,))
 
     def _validate_and_get_thread(self, thread_id):
@@ -56,6 +54,17 @@ class ThreadListView(ListView):
             participant_2=user)).annotate(
             last_message_time=Max('messages__created_on')).order_by(
                 '-last_message_time')
+
+    def get_context_data(self, **kwargs):
+        sender = self.request.user
+        context = super(ThreadListView, self).get_context_data(**kwargs)
+        object_list = []
+        for obj in context['object_list']:
+            obj.recipient = inbox_service.get_recipient(
+                thread=obj, sender=sender)
+            object_list.append(obj)
+        context['object_list'] = object_list
+        return context
 
 
 @method_decorator(login_required, name='dispatch')
