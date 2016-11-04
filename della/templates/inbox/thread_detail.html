@@ -2,7 +2,7 @@
 
 {% block content %}
 
-{% for message in object.message_set.all|dictsortreversed:"created_on" %}
+{% for message in object.messages.all|dictsortreversed:"created_on" %}
     <p>{{ message.text }} - {{ message.created_on }}</p>
     <br />
 {% endfor %}
