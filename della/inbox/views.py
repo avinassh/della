@@ -23,14 +23,13 @@ class MessageCreateView(CreateView):
         self.thread = self._validate_and_get_thread(thread_id=pk)
         if not self.thread:
             raise Http404('Haxxeru?')
-        return super(MessageCreateView, self).post(
-            request, pk, *args, **kwargs)
+        return super().post(request, pk, *args, **kwargs)
 
     def form_valid(self, form):
         message = form.save(commit=False)
         message.sent_by = self.request.user
         message.thread = self.thread
-        super(MessageCreateView, self).form_valid(form)
+        super().form_valid(form)
         response = {'status': True, 'pk': self.object.pk}
         return JsonResponse(response)
 
@@ -60,7 +59,7 @@ class ThreadListView(ListView):
 
     def get_context_data(self, **kwargs):
         sender = self.request.user
-        context = super(ThreadListView, self).get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
         object_list = []
         sneaky_list = []
         for obj in context['object_list']:

@@ -16,7 +16,7 @@ class SignupView(CreateView):
     template_name = 'user_manager/signup.html'
 
     def form_valid(self, form):
-        response = super(SignupView, self).form_valid(form)
+        response = super().form_valid(form)
         user_service.send_activation_email(user=form.cleaned_data['email'])
         return response
 
@@ -31,7 +31,7 @@ class UserProfileUpdateView(UpdateView):
         return self.request.user.userprofile
 
     def get_initial(self):
-        form_data = super(UserProfileUpdateView, self).get_initial()
+        form_data = super().get_initial()
         form_data['first_name'] = self.object.user.first_name
         form_data['last_name'] = self.object.user.last_name
         return form_data
@@ -42,5 +42,5 @@ class UserProfileUpdateView(UpdateView):
             self.object.user.first_name = form.cleaned_data['first_name']
             self.object.user.last_name = form.cleaned_data['last_name']
             self.object.user.save()
-        response = super(UserProfileUpdateView, self).form_valid(form)
+        response = super().form_valid(form)
         return response
