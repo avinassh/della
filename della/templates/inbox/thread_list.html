@@ -1,6 +1,14 @@
 {% extends "base.html" %}
 
 {% block content %}
+<p>sneaky messages</p>
+{% for thread in sneaky_list %}
+    <a href="{{ thread.url }}"><p>{{ thread.title }} - {{ thread.last_message_time }}</p></a>
+    <br />
+{% endfor %}
+
+<br />
+
 <p>messages</p>
 {% for thread in object_list %}
     <a href="{% url 'inbox:thread-detail' thread.recipient %}"><p>{{ thread.recipient }} - {{ thread.last_message_time }}</p></a>

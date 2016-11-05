@@ -62,12 +62,30 @@ class ThreadListView(ListView):
         sender = self.request.user
         context = super(ThreadListView, self).get_context_data(**kwargs)
         object_list = []
+        sneaky_list = []
         for obj in context['object_list']:
-            obj.recipient = inbox_service.get_recipient(
-                thread=obj, sender=sender)
-            object_list.append(obj)
+            if obj.is_sneaky:
+                sneaky_list.append(self._get_sneaky_context(thread=obj))
+            else:
+                obj.recipient = inbox_service.get_recipient(
+                    thread=obj, sender=sender)
+                object_list.append(obj)
         context['object_list'] = object_list
+        context['sneaky_list'] = sneaky_list
         return context
+
+    def _get_sneaky_context(self, thread):
+        sender = self.request.user
+        if thread.santa == self.request.user:
+            recipient = inbox_service.get_recipient(
+                thread=thread, sender=sender)
+            thread.title = 'Santee Messages - {}'.format(
+                recipient.username)
+            thread.url = reverse('inbox:santee-detail')
+        else:
+            thread.title = 'Santa Messages'
+            thread.url = reverse('inbox:santa-detail')
+        return thread
 
 
 @method_decorator(login_required, name='dispatch')
