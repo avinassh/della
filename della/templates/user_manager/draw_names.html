@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block content %}
+<p>No names have been drawn</p>
+<p>Following people are right now enabled for exchange:</p>
+<ol>
+{% for user in user_list %}
+    <li>{{ user.username }}</li>
+{% endfor %}
+</ol>
+<form method="POST" action="">
+    {% csrf_token %}
+    <input type="submit" value="submit" />
+</form>
+{% endblock %}
