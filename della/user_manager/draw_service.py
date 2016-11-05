@@ -4,6 +4,8 @@ from collections import deque
 
 from django.conf import settings
 from django.contrib.auth.models import User
+from django.db import transaction
+from bulk_update.helper import bulk_update
 
 
 def _get_default_file_content():
@@ -40,7 +42,17 @@ def flip_draw_status():
 
 
 def draw_names():
-    pass
+    users = User.objects.filter(userprofile__is_enabled_exchange=True).all()
+    user_profiles = []
+    user_ids = [u.id for u in users]
+    pairs = make_pairs(user_ids=user_ids)
+    with transaction.atomic():
+        for user in users:
+            user.userprofile.santee_id = pairs[user.id]
+            user_profiles.append(user.userprofile)
+        bulk_update(user_profiles)
+    flip_draw_status()
+    return True
 
 
 def make_pairs(user_ids):
@@ -48,7 +60,7 @@ def make_pairs(user_ids):
         pairs = _get_pairs(user_ids=user_ids)
         if _is_valid_pair(pairs=pairs):
             break
-    return pairs
+    return dict(pairs)
 
 
 def _get_pairs(user_ids):
