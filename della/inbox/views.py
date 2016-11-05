@@ -89,9 +89,26 @@ class ThreadListView(ListView):
 
 
 @method_decorator(login_required, name='dispatch')
-class ThreadDetailView(DetailView):
+class BaseThreadDetailView(DetailView):
     model = Thread
     form_class = MessageCreateForm
+
+    def get_context_data(self, **kwargs):
+        context = {}
+        context['form'] = self.form_class()
+        return super().get_context_data(**context)
+
+    def _get_thread(self, participant_1, participant_2, santa=None):
+        thread, _ = Thread.objects.get_or_create(
+            participant_1=participant_1, participant_2=participant_2,
+            is_sneaky=bool(santa), santa=santa)
+        return thread
+
+
+class ThreadDetailView(BaseThreadDetailView):
+    """
+    To render (non-sneaky) message thread between two users
+    """
 
     def get_object(self):
         user = self.request.user
@@ -99,24 +116,14 @@ class ThreadDetailView(DetailView):
         recipient = get_object_or_404(User, username=recipient_name)
         participant_1, participant_2 = inbox_service.get_participants(
             user_1=user, user_2=recipient)
-        thread, _ = Thread.objects.get_or_create(
-            participant_1=participant_1, participant_2=participant_2,
-            is_sneaky=False)
-        return thread
-
-    def get_context_data(self, **kwargs):
-        context = {}
-        context['form'] = self.form_class()
-        return super(ThreadDetailView, self).get_context_data(**context)
+        return self._get_thread(
+            participant_1=participant_1, participant_2=participant_2)
 
 
-@method_decorator(login_required, name='dispatch')
-class SantaThreadDetailView(DetailView):
+class SantaThreadDetailView(BaseThreadDetailView):
     """
     To render message thread between logged in user and his santa
     """
-    model = Thread
-    form_class = MessageCreateForm
 
     def get_object(self):
         user = self.request.user
@@ -127,24 +134,15 @@ class SantaThreadDetailView(DetailView):
             raise Http404("You don't have a Santa. Yet ;)")
         participant_1, participant_2 = inbox_service.get_participants(
             user_1=user, user_2=santa)
-        thread, _ = Thread.objects.get_or_create(
+        return self._get_thread(
             participant_1=participant_1, participant_2=participant_2,
-            is_sneaky=True, santa=santa)
-        return thread
-
-    def get_context_data(self, **kwargs):
-        context = {}
-        context['form'] = self.form_class()
-        return super(SantaThreadDetailView, self).get_context_data(**context)
+            santa=santa)
 
 
-@method_decorator(login_required, name='dispatch')
-class SanteeThreadDetailView(DetailView):
+class SanteeThreadDetailView(BaseThreadDetailView):
     """
     To render message thread between logged in user (santa) and his santee
     """
-    model = Thread
-    form_class = MessageCreateForm
 
     def get_object(self):
         user = self.request.user
@@ -153,12 +151,6 @@ class SanteeThreadDetailView(DetailView):
             raise Http404("You don't have a Santee. Yet ;)")
         participant_1, participant_2 = inbox_service.get_participants(
             user_1=user, user_2=santee)
-        thread, _ = Thread.objects.get_or_create(
+        return self._get_thread(
             participant_1=participant_1, participant_2=participant_2,
-            is_sneaky=True, santa=user)
-        return thread
-
-    def get_context_data(self, **kwargs):
-        context = {}
-        context['form'] = self.form_class()
-        return super(SanteeThreadDetailView, self).get_context_data(**context)
+            santa=user)
