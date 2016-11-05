@@ -1,5 +1,5 @@
 from django.views.generic.edit import CreateView
-from django.views.generic import DetailView
+from django.views.generic import DetailView, ListView
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.shortcuts import reverse
@@ -23,3 +23,11 @@ class ImageUploadView(CreateView):
 
 class ImageDetailView(DetailView):
     model = Image
+
+
+class ImageListView(ListView):
+    model = Image
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        return queryset.order_by('-created_on')

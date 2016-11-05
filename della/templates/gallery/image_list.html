@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+
+{% block content %}
+{% for image in object_list %}
+    <a href="{% url 'gallery:image-detail' image.id %}"><p>{{ image.title }} - {{ image.added_by.username }}</p></a>
+    <br />
+{% endfor %}
+
+{% endblock %}
