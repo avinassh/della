@@ -50,3 +50,6 @@ della/static/admin/
 
 # PyCharm
 .idea
+
+# della
+della/status.json

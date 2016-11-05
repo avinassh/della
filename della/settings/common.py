@@ -127,3 +127,6 @@ STATIC_ROOT = os.path.join(PROJECT_ROOT, 'static')
 # Media files (user uploaded stuff)
 MEDIA_ROOT = os.path.join(PROJECT_ROOT, 'media')
 MEDIA_URL = '/media/'
+
+# Status File - which stores whether the names have been drawn or not
+STATUS_FILE = os.path.join(PROJECT_ROOT, 'status.json')
