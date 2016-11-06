@@ -1,0 +1,11 @@
+{% autoescape off %}
+
+Hi {{ username }}!
+
+Thank you for registering for Secret Santa. To activate your account, please click on this link: <a href="{{ url }}">Confirm Email</a>
+
+If above link isn't working, then try this link - {{ url }}
+
+Cheers,
+Admin
+{% endautoescape %}

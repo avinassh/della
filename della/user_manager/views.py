@@ -7,7 +7,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.admin.views.decorators import staff_member_required
 from django.utils.decorators import method_decorator
 from django.core.urlresolvers import reverse_lazy
-from django.shortcuts import render, get_object_or_404, redirect
+from django.shortcuts import render, get_object_or_404
 
 from .models import UserProfile
 from .forms import SignupForm, UserProfileForm
@@ -27,8 +27,10 @@ class SignupView(CreateView):
         user.is_active = False
         user.save()
         user_service.create_user_profile(user=user)
-        user_service.send_activation_email(user=user)
-        return redirect('/')
+        user_service.send_activation_email(request=self.request, user=user)
+        response = ('Hey {}! Your account has been created. Please check your '
+                    'email for account activation link.').format(user.username)
+        return HttpResponse(response)
 
 
 class ActivateView(View):
