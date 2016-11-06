@@ -6,7 +6,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.admin.views.decorators import staff_member_required
 from django.utils.decorators import method_decorator
 from django.core.urlresolvers import reverse_lazy
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 
 from .models import UserProfile
 from .forms import SignupForm, UserProfileForm
@@ -21,9 +21,12 @@ class SignupView(CreateView):
     template_name = 'user_manager/signup.html'
 
     def form_valid(self, form):
-        response = super().form_valid(form)
-        user_service.send_activation_email(user=form.cleaned_data['email'])
-        return response
+        user = form.save(commit=False)
+        user.is_active = False
+        user.save()
+        user_service.create_user_profile(user=user)
+        user_service.send_activation_email(user=user)
+        return redirect('/')
 
 
 @method_decorator(login_required, name='dispatch')
