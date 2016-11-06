@@ -10,10 +10,12 @@ from django.core.urlresolvers import reverse_lazy
 from django.shortcuts import render, get_object_or_404
 
 from .models import UserProfile
-from .forms import SignupForm, UserProfileForm, RequestActivationCodeForm
+from .forms import (SignupForm, UserProfileForm, RequestActivationCodeForm,
+                    MassEmailForm)
 from . import user_service
 from . import draw_service
 from . import activation_service
+from . import email_service
 
 
 class SignupView(CreateView):
@@ -124,3 +126,17 @@ class DrawNamesView(View):
         return render(
             request=request, template_name=self.template_draw_names_done,
             context=context)
+
+
+@method_decorator(staff_member_required, name='dispatch')
+class MassEmailView(FormView):
+    form_class = MassEmailForm
+    template_name = 'user_manager/mass_email.html'
+
+    def form_valid(self, form):
+        message = form.cleaned_data['message']
+        subject = form.cleaned_data['subject']
+        recipients = form.cleaned_data['recipients']
+        email_service.send_email(
+            subject=subject, message=message, recipient_list=recipients)
+        return HttpResponse('Emails have been sent!')

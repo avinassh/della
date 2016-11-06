@@ -3,7 +3,7 @@ from django.contrib.auth import views as auth_views
 
 from .views import (SignupView, UserProfileUpdateView, DrawNamesView,
                     UserProfileDetailView, ActivateView,
-                    RequestActivationEmailView)
+                    RequestActivationEmailView, MassEmailView)
 
 urlpatterns = [
     url(r'^login/$', auth_views.login, name='login',
@@ -17,6 +17,7 @@ urlpatterns = [
     url(r'^activate/request/$', RequestActivationEmailView.as_view(),
         name='activate-user'),
     url(r'^draw-names/$', DrawNamesView.as_view()),
+    url(r'^mass-email/$', MassEmailView.as_view()),
     url(r'^@(?P<username>[a-zA-Z0-9_]+)/$', UserProfileDetailView.as_view(),
         name='user-detail'),
 ]
