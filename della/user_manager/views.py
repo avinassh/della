@@ -1,11 +1,12 @@
 from django.contrib.auth.models import User
 from django.views import View
+from django.views.generic import DetailView
 from django.views.generic.edit import CreateView, UpdateView
 from django.contrib.auth.decorators import login_required
 from django.contrib.admin.views.decorators import staff_member_required
 from django.utils.decorators import method_decorator
 from django.core.urlresolvers import reverse_lazy
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 
 from .models import UserProfile
 from .forms import SignupForm, UserProfileForm
@@ -48,6 +49,22 @@ class UserProfileUpdateView(UpdateView):
             self.object.user.save()
         response = super().form_valid(form)
         return response
+
+
+class UserProfileDetailView(DetailView):
+    model = UserProfile
+    template_name = 'user_manager/userprofile_detail.html'
+    template_name_santa = 'user_manager/userprofile_detail_santa.html'
+
+    def get_object(self, queryset=None):
+        username = self.kwargs.get('username')
+        return get_object_or_404(UserProfile, user__username=username)
+
+    def render_to_response(self, context, **response_kwargs):
+        if self.request.user.is_authenticated():
+            if self.request.user.userprofile.santee.id == self.object.user.id:
+                self.template_name = self.template_name_santa
+        return super().render_to_response(context, **response_kwargs)
 
 
 @method_decorator(staff_member_required, name='dispatch')
