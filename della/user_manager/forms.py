@@ -2,7 +2,7 @@ from django import forms
 from django.forms import ModelForm
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
-from django.core.validators import RegexValidator
+from django.core.validators import RegexValidator, validate_email
 from django.conf import settings
 
 from .models import UserProfile
@@ -50,3 +50,45 @@ class RequestActivationCodeForm(ModelForm):
     class Meta:
         model = User
         fields = ['email']
+
+
+class MassEmailForm(forms.Form):
+    subject = forms.CharField(max_length=200)
+    message = forms.CharField(widget=forms.Textarea)
+    recipients = forms.CharField(widget=forms.Textarea, required=False)
+    for_all_active_users = forms.BooleanField(required=False)
+    for_all_enabled_users = forms.BooleanField(required=False)
+
+    def clean_recipients(self):
+        recipients = self.cleaned_data.get('recipients')
+        if not recipients:
+            return recipients
+        emails = recipients.split()
+        for email in emails:
+            try:
+                validate_email(email)
+            except forms.ValidationError:
+                raise forms.ValidationError('Enter emails in valid format')
+        return emails
+
+    def clean(self):
+        cleaned_data = super().clean()
+        if self.errors:
+            return cleaned_data
+        for_all_active_users = cleaned_data['for_all_active_users']
+        for_all_enabled_users = cleaned_data['for_all_enabled_users']
+        recipients = cleaned_data['recipients']
+        if for_all_active_users and for_all_enabled_users:
+            raise forms.ValidationError('You can cannot check both options')
+        if recipients and (for_all_active_users or for_all_enabled_users):
+            raise forms.ValidationError('Either enter emails or check one box')
+        if recipients:
+            return cleaned_data
+        if for_all_active_users:
+            queryset = User.objects.filter(is_active=True)
+        else:
+            queryset = User.objects.filter(
+                userprofile__is_enabled_exchange=True)
+        cleaned_data['recipients'] = list(queryset.values_list(
+            'email', flat=True))
+        return cleaned_data
