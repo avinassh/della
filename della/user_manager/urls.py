@@ -12,7 +12,7 @@ urlpatterns = [
     url(r'^create/$', SignupView.as_view()),
     url(r'^update/$', UserProfileUpdateView.as_view(), name='update'),
     url(r'^activate/(?P<username>[0-9A-Za-z_]+)-(?P<code>[0-9A-Za-z_:-]+)/$',
-        ActivateView.as_view()),
+        ActivateView.as_view(), name='activate-user'),
     url(r'^draw-names/$', DrawNamesView.as_view()),
     url(r'^@(?P<username>[a-zA-Z0-9_]+)/$', UserProfileDetailView.as_view(),
         name='user-detail'),
