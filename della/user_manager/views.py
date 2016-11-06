@@ -40,6 +40,7 @@ class ActivateView(View):
         if not activation_service.validate_key(key=code, user=user):
             return HttpResponse('Activation key expired, request a new one.')
         user_service.activate_user(user=user)
+        user_service.enable_for_exchange(user=user)
         return HttpResponse('Your email is confirmed. Please login.')
 
 

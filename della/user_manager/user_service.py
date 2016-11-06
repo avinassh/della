@@ -18,6 +18,14 @@ def activate_user(user):
     return True
 
 
+def enable_for_exchange(user):
+    if user.userprofile.is_enabled_exchange:
+        return True
+    user.userprofile.is_enabled_exchange = True
+    user.userprofile.save()
+    return True
+
+
 def send_activation_email(request, user):
     message_template = 'user_manager/account_activation_email.html'
     subject_temaplte = 'user_manager/account_activation_subject.txt'
