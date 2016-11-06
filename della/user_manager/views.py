@@ -2,6 +2,7 @@ from django.contrib.auth.models import User
 from django.views import View
 from django.views.generic import DetailView
 from django.views.generic.edit import CreateView, UpdateView
+from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.contrib.admin.views.decorators import staff_member_required
 from django.utils.decorators import method_decorator
@@ -12,6 +13,7 @@ from .models import UserProfile
 from .forms import SignupForm, UserProfileForm
 from . import user_service
 from . import draw_service
+from . import activation_service
 
 
 class SignupView(CreateView):
@@ -27,6 +29,16 @@ class SignupView(CreateView):
         user_service.create_user_profile(user=user)
         user_service.send_activation_email(user=user)
         return redirect('/')
+
+
+class ActivateView(View):
+
+    def get(self, request, username, code):
+        user = get_object_or_404(User, username=username)
+        if not activation_service.validate_key(key=code, user=user):
+            return HttpResponse('Activation key expired, request a new one.')
+        user_service.activate_user(user=user)
+        return HttpResponse('Your email is confirmed. Please login.')
 
 
 @method_decorator(login_required, name='dispatch')
