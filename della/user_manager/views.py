@@ -1,7 +1,7 @@
 from django.contrib.auth.models import User
 from django.views import View
 from django.views.generic import DetailView
-from django.views.generic.edit import CreateView, UpdateView
+from django.views.generic.edit import CreateView, UpdateView, FormView
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.contrib.admin.views.decorators import staff_member_required
@@ -10,7 +10,7 @@ from django.core.urlresolvers import reverse_lazy
 from django.shortcuts import render, get_object_or_404
 
 from .models import UserProfile
-from .forms import SignupForm, UserProfileForm
+from .forms import SignupForm, UserProfileForm, RequestActivationCodeForm
 from . import user_service
 from . import draw_service
 from . import activation_service
@@ -41,6 +41,19 @@ class ActivateView(View):
             return HttpResponse('Activation key expired, request a new one.')
         user_service.activate_user(user=user)
         return HttpResponse('Your email is confirmed. Please login.')
+
+
+class RequestActivationEmailView(FormView):
+    form_class = RequestActivationCodeForm
+    template_name = 'user_manager/activation_email_request.html'
+
+    def form_valid(self, form):
+        email = form.cleaned_data['email']
+        user = get_object_or_404(User, email=email)
+        if user.is_active:
+            return HttpResponse('Account already active.')
+        user_service.send_activation_email(request=self.request, user=user)
+        return HttpResponse('Activation email has been sent.')
 
 
 @method_decorator(login_required, name='dispatch')
