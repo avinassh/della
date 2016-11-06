@@ -130,3 +130,10 @@ MEDIA_URL = '/media/'
 
 # Status File - which stores whether the names have been drawn or not
 STATUS_FILE = os.path.join(PROJECT_ROOT, 'status.json')
+
+# Sparkpost settings
+SPARKPOST_API_KEY = os.environ['SPARKPOST_API_KEY']
+EMAIL_BACKEND = 'sparkpost.django.email_backend.SparkPostEmailBackend'
+
+# Email verification link expiry (in seconds)
+EMAIL_LINK_EXPIRY_DAYS = 2 * 86400
