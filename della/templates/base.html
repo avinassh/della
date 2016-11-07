@@ -3,13 +3,24 @@
   <head>
       <title>Della</title>
       <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.min.css' %}" />
+      <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}" />
       <script type="text/javascript" src="{% static 'js/jquery-3.1.1.min.js' %}"></script>
-      <script src="https://www.atlasestateagents.co.uk/javascript/tether.min.js"></script>
       <script type="text/javascript" src="{% static 'js/bootstrap.min.js' %}"></script>
   </head>
   <body>
-    {% block content %}
-    {% endblock %}
+    <div class="container">
+      {% include "navbar.html" %}
+    </div>
+
+    <div class="container">
+      {% block content %}
+      {% endblock %}
+    </div>
+
+    <div class="container">
+      {% include "footer.html" %}
+    </div>
+
     {% block jsblock %}
     {% endblock %}
   </body>
