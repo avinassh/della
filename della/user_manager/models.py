@@ -21,3 +21,6 @@ class UserProfile(TimeStampMixin):
 
     user = models.OneToOneField(User)
     santee = models.OneToOneField(User, related_name='santa', null=True)
+
+    def __str__(self):
+        return self.user.username
