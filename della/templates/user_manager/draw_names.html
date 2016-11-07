@@ -1,15 +1,22 @@
 {% extends "base.html" %}
 
 {% block content %}
-<p>No names have been drawn</p>
+<h3>Draw Names</h3>
 <p>Following people are right now enabled for exchange:</p>
-<ol>
+<ul class="list-group">
 {% for user in user_list %}
-    <li>{{ user.username }}</li>
+    <li class="list-group-item">{{ user.username }}</li>
 {% endfor %}
-</ol>
-<form method="POST" action="">
-    {% csrf_token %}
-    <input type="submit" value="submit" />
+</ul>
+<div class="alert alert-danger">
+  <strong>Are you sure?</strong> Drawing names is one time only operation and cannot be undone.
+</div>
+<form action="{% url 'user_manager:draw-names'%}" method="post">
+  {% csrf_token %}
+  <fieldset>
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary">Draw Names</button>
+    </div>
+  </fieldset>
 </form>
 {% endblock %}
