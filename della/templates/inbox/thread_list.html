@@ -1,18 +1,30 @@
 {% extends "base.html" %}
 
 {% block content %}
-<p>sneaky messages</p>
+
+<h3>Sneaky Messages</h3>
+<p>These contain messages between your Santa and Santee. The messages sent to your Santee, will be always sent as anonymous.</p>
+<div class="list-group">
 {% for thread in sneaky_list %}
-    <a href="{{ thread.url }}"><p>{{ thread.title }} - {{ thread.last_message_time }}</p></a>
-    <br />
+  <a href="{{ thread.url }}" class="list-group-item">
+  <span class="name" style="min-width: 120px; display: inline-block;">{{ thread.title }}</span>
+  <!-- <span>Display first few chars of latest message</span> -->
+  <span class="badge">{{ thread.last_message_time }}</span> <span class="pull-right"></span></a>
+{% empty %}
+  <p>You don't have any sneaky messages.</p>
 {% endfor %}
+</div>
 
-<br />
-
-<p>messages</p>
+<h3>Messages</h3>
+<div class="list-group">
 {% for thread in object_list %}
-    <a href="{% url 'inbox:thread-detail' thread.recipient %}"><p>{{ thread.recipient }} - {{ thread.last_message_time }}</p></a>
-    <br />
+  <a href="{% url 'inbox:thread-detail' thread.recipient %}" class="list-group-item">
+  <span class="name" style="min-width: 120px; display: inline-block;">{{ thread.recipient }}</span>
+  <!-- <span>Display first few chars of latest message</span> -->
+  <span class="badge">{{ thread.last_message_time }}</span> <span class="pull-right"></span></a>
+{% empty %}
+  <p>...</p>
 {% endfor %}
-
+</div>
 {% endblock %}
+
