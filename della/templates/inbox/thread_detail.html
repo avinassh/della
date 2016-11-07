@@ -6,7 +6,7 @@
 <div class="panel panel-info">
   <div class="panel-body">
     <ul class="media-list">
-      {% for message in object.messages.all|dictsortreversed:"created_on" %}
+      {% for message in object.messages.all %}
       <li class="media">
         <div class="media-body">
           <div class="media">
