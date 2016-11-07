@@ -115,14 +115,18 @@ class ThreadDetailView(BaseThreadDetailView):
         recipient = get_object_or_404(User, username=recipient_name)
         participant_1, participant_2 = inbox_service.get_participants(
             user_1=user, user_2=recipient)
-        return self._get_thread(
+        thread = self._get_thread(
             participant_1=participant_1, participant_2=participant_2)
+        thread.recipient = recipient_name
+        return thread
 
 
 class SantaThreadDetailView(BaseThreadDetailView):
     """
     To render message thread between logged in user and his santa
     """
+
+    template_name = 'inbox/thread_detail_sneaky.html'
 
     def get_object(self):
         user = self.request.user
@@ -133,9 +137,11 @@ class SantaThreadDetailView(BaseThreadDetailView):
             raise Http404("You don't have a Santa. Yet ;)")
         participant_1, participant_2 = inbox_service.get_participants(
             user_1=user, user_2=santa)
-        return self._get_thread(
+        thread = self._get_thread(
             participant_1=participant_1, participant_2=participant_2,
             santa=santa)
+        thread.recipient = 'Santa'
+        return thread
 
 
 class SanteeThreadDetailView(BaseThreadDetailView):
@@ -150,6 +156,8 @@ class SanteeThreadDetailView(BaseThreadDetailView):
             raise Http404("You don't have a Santee. Yet ;)")
         participant_1, participant_2 = inbox_service.get_participants(
             user_1=user, user_2=santee)
-        return self._get_thread(
+        thread = self._get_thread(
             participant_1=participant_1, participant_2=participant_2,
             santa=user)
+        thread.recipient = "{} (Santee)".format(santee.username)
+        return thread
