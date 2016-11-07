@@ -2,17 +2,49 @@
 {% load staticfiles %}
 
 {% block content %}
-
-{% for message in object.messages.all|dictsortreversed:"created_on" %}
-    <p>{{ message.text }} - {{ message.created_on }}</p>
-    <br />
-{% endfor %}
-
-<form action="{% url 'inbox:new-message' object.id %}" method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <input type="submit" value="Submit" />
-</form>
+<h3>Name</h3>
+<div class="panel panel-info">
+  <div class="panel-body">
+    <ul class="media-list">
+      {% for message in object.messages.all|dictsortreversed:"created_on" %}
+      <li class="media">
+        <div class="media-body">
+          <div class="media">
+          <a class="pull-left" href="#">
+            <img class="media-object" src="" />
+          </a>
+          <div class="media-body" >
+            {{ message.text }}
+            <br /><br />
+            <small class="text-muted">{{ message.sent_by }} | {{ message.created_on }}</small>
+            <hr />
+          </div>
+          </div>
+        </div>
+      </li>
+      {% endfor %}
+    </ul>
+  </div>
+    <div class="panel-footer">
+      <form class="form-horizontal" action="{% url 'inbox:new-message' object.id %}" method="post">
+      {% csrf_token %}
+      <fieldset>
+      <div class="form-group">
+        <label for="id_text" class="col-lg-0 control-label"></label>
+        <div class="col-lg-12">
+           <textarea class="form-control" rows="10" name="text" id="id_text" required></textarea>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="col-lg-9 col-lg-offset-9">
+          <button type="reset" class="btn btn-default">Cancel</button>
+          <button type="submit" class="btn btn-primary">Send Message</button>
+        </div>
+      </div>
+      </fieldset>
+      </form>
+    </div>
+</div>
 {% endblock %}
 
 {% block jsblock %}
