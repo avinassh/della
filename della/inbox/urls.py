@@ -10,5 +10,5 @@ urlpatterns = [
         name='new-message'),
     url(r'^santa/', SantaThreadDetailView.as_view(), name='santa-detail'),
     url(r'^santee/', SanteeThreadDetailView.as_view(), name='santee-detail'),
-    url(r'^$', ThreadListView.as_view())
+    url(r'^$', ThreadListView.as_view(), name='threads')
 ]

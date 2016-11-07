@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <div class="jumbotron">
+    <h1>Secret Santa</h1>
+    <p>And it works</p>
+  </div>
+
+  <div class="row">
+    <div class="col-md-6">
+      {% include "user_manager/signup_form.html" %}
+    </div>
+    <div class="col-md-6">
+      {% include "user_manager/login_form.html" %}
+    </div>
+  </div>
+{% endblock %}
