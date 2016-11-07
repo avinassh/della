@@ -6,23 +6,25 @@
 <div class="panel panel-info">
   <div class="panel-body">
     <ul class="media-list">
-      {% for message in object.messages.all %}
-      <li class="media">
-        <div class="media-body">
-          <div class="media">
-          <a class="pull-left" href="#">
-            <img class="media-object" src="" />
-          </a>
-          <div class="media-body" >
-            {{ message.text }}
-            <br /><br />
-            <small class="text-muted">{{ message.sent_by }} | {{ message.created_on }}</small>
-            <hr />
+      {% block all_messages %}
+        {% for message in object.messages.all %}
+        <li class="media">
+          <div class="media-body">
+            <div class="media">
+            <a class="pull-left" href="#">
+              <img class="media-object" src="" />
+            </a>
+            <div class="media-body" >
+              {{ message.text }}
+              <br /><br />
+              <small class="text-muted">{{ message.sent_by }} | {{ message.created_on }}</small>
+              <hr />
+            </div>
+            </div>
           </div>
-          </div>
-        </div>
-      </li>
-      {% endfor %}
+        </li>
+        {% endfor %}
+      {% endblock %}
     </ul>
   </div>
     <div class="panel-footer">
