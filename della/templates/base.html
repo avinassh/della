@@ -21,6 +21,13 @@
       {% include "footer.html" %}
     </div>
 
+    <!-- So that bootstrap tooltips are enabled -->
+    <script>
+      $(document).ready(function(){
+        $('[data-toggle="tooltip"]').tooltip();
+      });
+    </script>
+
     {% block jsblock %}
     {% endblock %}
   </body>
