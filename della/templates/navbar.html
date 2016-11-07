@@ -14,6 +14,7 @@
       <ul class="nav navbar-nav">
         <li><a href="/">Home</a></li>
         <li><a href="#">About</a></li>
+        <li><a href="{% url 'gallery:image-list' %}">Gallery</a></li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         {% if user.is_staff %}
