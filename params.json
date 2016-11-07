@@ -1,0 +1,6 @@
+{
+  "name": "Della",
+  "tagline": "Della is a Django app for managing Secret Santa/Gift Exchange.",
+  "body": "# della\r\n\r\nDella is a Django app for managing Secret Santa/Gift Exchange. \r\n\r\n## Name\r\n\r\nThe name Della comes from O. Henry's short story [The Gift of the Magi](http://www.gutenberg.org/files/7256/7256-h/7256-h.htm).\r\n\r\n## License\r\n\r\nThe mighty MIT license. Please check `LICENSE` for more details.\r\n",
+  "note": "Don't delete this file! It's used internally to help with page regeneration."
+}
