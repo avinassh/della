@@ -1,9 +1,34 @@
 {% extends "base.html" %}
 
 {% block content %}
-<form action="" method="post" enctype="multipart/form-data">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <input type="submit" value="Upload" />
+<form class="form-horizontal" action="{% url 'gallery:upload' %}" method="post" enctype="multipart/form-data">
+  {% csrf_token %}
+  <fieldset>
+    <legend>Upload Image</legend>
+    <div class="form-group">
+      <label for="id_title" class="col-lg-2 control-label">Title</label>
+      <div class="col-lg-10">
+        <input placeholder="Image title" type="text" class="form-control" id="id_title" maxlength="300" name="title" required />
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="id_file" class="col-lg-2 control-label">Image</label>
+      <div class="col-lg-10">
+         <input class="form-control" name="file" type="file" accept="image/*" id="id_file" required />
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="id_description" class="col-lg-2 control-label">Description</label>
+      <div class="col-lg-10">
+         <textarea placeholder="Description" class="form-control" cols="40" rows="10" name="description" id="id_description"></textarea>
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="col-lg-10 col-lg-offset-10">
+        <button type="reset" class="btn btn-default">Cancel</button>
+        <button type="submit" class="btn btn-primary">Upload</button>
+      </div>
+    </div>
+  </fieldset>
 </form>
 {% endblock %}
