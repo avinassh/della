@@ -30,8 +30,13 @@ $(document).ready(function() {
             url: messageForm.attr('action'),
             data: messageForm.serialize(),
             success: function (data) {
-                console.log("success");
-                console.log(data);
+                if (data.status) {
+                    update_thread(data=data.data);
+                }
+                else {
+                    console.log('ajax was successful... but')
+                    console.log(data.data)
+                }
             },
             error: function(data) {
                 console.log("error");
@@ -40,4 +45,18 @@ $(document).ready(function() {
         });
         return false;
     });
+
+    function update_thread(data) {
+        var sampleMessageBox = $(".sample-message-block").children()
+        var messageBox = sampleMessageBox.clone();
+        messageBox.find('.message-body').text(data.text)
+        messageBox.find('.text-muted').text(data.signature)
+        messageBox.find('.sender-avatar').attr('src', data.avatar)
+
+        // add this to UI
+        $(".media-list").append(messageBox)
+        // clear text box from form
+        $("form").trigger('reset');
+    }
+
 });
