@@ -16,4 +16,6 @@
     {{ object.description }}
   </div>
 </div>
+<br>
+Share on: <a href="https://www.facebook.com/sharer/sharer.php?u={{request.build_absolute_uri}}" target="_BLANK" class="btn btn-primary btn-xs">Facebook</a> <a href="https://twitter.com/intent/tweet?url={{request.build_absolute_uri}}" target="_BLANK" class="btn btn-primary btn-xs">Twitter</a>
 {% endblock %}
