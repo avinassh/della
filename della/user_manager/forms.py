@@ -42,7 +42,7 @@ class UserProfileForm(ModelForm):
 
     class Meta:
         model = UserProfile
-        exclude = ['is_enabled_exchange', 'user']
+        exclude = ['is_enabled_exchange', 'user', 'santee']
 
 
 class RequestActivationCodeForm(ModelForm):
