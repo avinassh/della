@@ -63,7 +63,7 @@ class RequestActivationEmailView(FormView):
 class UserProfileUpdateView(UpdateView):
     model = UserProfile
     form_class = UserProfileForm
-    success_url = reverse_lazy('user_manager:update')
+    success_url = reverse_lazy('user_manager:account')
 
     def get_object(self, queryset=None):
         return self.request.user.userprofile
