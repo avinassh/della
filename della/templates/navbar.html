@@ -27,6 +27,7 @@
         </li>
         {% endif %}
         {% if user.is_authenticated %}
+          <li><a href="{% url 'user_manager:user-detail' user.username %}">{{ user.username }}</a></li>
           <li><a href="{% url 'user_manager:account' %}">Account</a></li>
           <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Messages<span class="caret"></span></a>
