@@ -100,6 +100,7 @@ class BaseThreadDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = {}
         context['form'] = self.form_class()
+        context['messages'] = self.object.messages.all()
         return super().get_context_data(**context)
 
     def _get_thread(self, participant_1, participant_2, santa=None):
@@ -137,16 +138,23 @@ class SantaThreadDetailView(BaseThreadDetailView):
         user = self.request.user
         try:
             # user.santa is a UserProfile
-            santa = user.santa.user
+            self.santa = user.santa.user
         except user.userprofile.DoesNotExist:
             raise Http404("You don't have a Santa. Yet ;)")
         participant_1, participant_2 = inbox_service.get_participants(
-            user_1=user, user_2=santa)
+            user_1=user, user_2=self.santa)
         thread = self._get_thread(
             participant_1=participant_1, participant_2=participant_2,
-            santa=santa)
+            santa=self.santa)
         thread.recipient = 'Santa'
         return thread
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        for message in context['messages']:
+            if message.sent_by == self.santa:
+                message.sent_by.username = 'Santa'
+        return context
 
 
 class SanteeThreadDetailView(BaseThreadDetailView):
