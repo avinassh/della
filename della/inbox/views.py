@@ -33,12 +33,6 @@ class MessageCreateView(CreateView):
         response = {'status': True, 'pk': self.object.pk}
         return JsonResponse(response)
 
-    def get_success_url(self):
-        sender = self.request.user
-        recipient = inbox_service.get_recipient(
-            thread=self.thread, sender=sender)
-        return reverse('inbox:thread-detail', args=(recipient.username,))
-
     def _validate_and_get_thread(self, thread_id):
         user = self.request.user
         return Thread.objects.filter(
