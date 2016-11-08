@@ -1,12 +1,19 @@
 {% extends "base.html" %}
 
 {% block content %}
-title: {{ object.title }}
-
-<img src="/media/{{object.file.name}}">
-
-desc: {{ object.description }}
-
-uploaded by: {{ object.added_by.username }}
-
+<h3>{{ object.title }}</h3>
+<small class="text-muted"><a href="{%url 'user_manager:user-detail' image.added_by.username %}">{{ image.added_by.username }}</a> | {{ image.created_on }}</small>
+<br><br>
+<div class="row">
+  <div class="col-md-4">
+    <div class="panel panel-default">
+      <div class="panel-body">
+        <img src="/media/{{object.file.name}}" width="100%">
+      </div>
+    </div>
+  </div>
+  <div class="col-md-8">
+    {{ object.description }}
+  </div>
+</div>
 {% endblock %}
