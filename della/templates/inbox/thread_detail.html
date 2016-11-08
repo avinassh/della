@@ -7,14 +7,14 @@
   <div class="panel-body">
     <ul class="media-list">
       {% block all_messages %}
-        {% for message in object.messages.all %}
+        {% for message in messages %}
         <li class="media">
           <div class="media-body">
             <div class="media">
               <div class="media-body" >
                 <span class="message-body">{{ message.text }}</span>
                 <br /><br />
-                <small class="text-muted">{{ message.sent_by }} | {{ message.created_on }}</small>
+                <small class="text-muted"><a href="{%url 'user_manager:user-detail' message.sent_by.username %}">{{ message.sent_by.username }}</a> | {{ message.created_on }}</small>
                 <hr />
               </div>
             </div>
