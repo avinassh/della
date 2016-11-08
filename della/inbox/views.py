@@ -6,6 +6,7 @@ from django.shortcuts import reverse, get_object_or_404
 from django.db.models import Q, Max
 from django.http import Http404, JsonResponse
 from django.contrib.auth.models import User
+from django.utils.formats import date_format
 
 from .forms import MessageCreateForm
 from .models import Message, Thread
@@ -16,6 +17,7 @@ from . import inbox_service
 class MessageCreateView(CreateView):
     model = Message
     form_class = MessageCreateForm
+    success_url = '/'
 
     def post(self, request, pk, *args, **kwargs):
         if not request.is_ajax():
@@ -30,7 +32,7 @@ class MessageCreateView(CreateView):
         message.sent_by = self.request.user
         message.thread = self.thread
         super().form_valid(form)
-        response = {'status': True, 'pk': self.object.pk}
+        response = self._get_response()
         return JsonResponse(response)
 
     def _validate_and_get_thread(self, thread_id):
@@ -38,6 +40,15 @@ class MessageCreateView(CreateView):
         return Thread.objects.filter(
             Q(pk=thread_id) & Q(
                 Q(participant_1=user) | Q(participant_2=user))).first()
+
+    def _get_response(self):
+        timestamp = date_format(self.object.created_on, 'DATETIME_FORMAT')
+        data = {
+            'text': self.object.text,
+            'signature': "{} | {}".format(self.object.sent_by.username,
+                                          timestamp),
+        }
+        return {'status': True, 'data': data}
 
 
 @method_decorator(login_required, name='dispatch')
