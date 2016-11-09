@@ -19,9 +19,26 @@ class SignupForm(UserCreationForm):
     email = forms.EmailField(max_length=254, required=True)
     invite_code = forms.CharField(max_length=120)
 
-    class Meta:
-        model = User
-        fields = ['email', 'username', ]
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.layout = Layout(
+            Fieldset(
+                'Signup',
+                'invite_code',
+                'username',
+                'email',
+                'password1',
+                'password2'
+            )
+        )
+        self.helper.form_class = 'form-horizontal'
+        self.helper.form_method = 'post'
+        self.helper.form_action = 'user_manager:signup'
+        self.helper.label_class = 'col-lg-2'
+        self.helper.field_class = 'col-lg-10'
+        self.helper.add_input(Reset('reset', 'Cancel'))
+        self.helper.add_input(Submit('submit', 'Signup'))
 
     def clean_invite_code(self):
         error_message = 'Invalid invite code'
@@ -36,6 +53,10 @@ class SignupForm(UserCreationForm):
         if email and User.objects.filter(email=email).exists():
                 raise forms.ValidationError(error_message)
         return email
+
+    class Meta:
+        model = User
+        fields = ['email', 'username', ]
 
 
 class UserProfileForm(ModelForm):
