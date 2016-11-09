@@ -2,6 +2,10 @@
 
 Della is a Django app for managing Secret Santa/Gift Exchange. 
 
+## Deployment
+
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
+
 ## Name
 
 The name Della comes from O. Henry's short story [The Gift of the Magi](http://www.gutenberg.org/files/7256/7256-h/7256-h.htm).
