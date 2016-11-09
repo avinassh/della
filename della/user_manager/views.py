@@ -131,6 +131,12 @@ class DrawNamesView(View):
             request=request, template_name=template, context=context)
 
     def post(self, request):
+        eligible_users = User.objects.filter(
+            userprofile__is_enabled_exchange=True).count()
+        if eligible_users < 3:
+            m = ('The number of eligible users for exchange is less')
+            messages.add_message(self.request, messages.ERROR, m)
+            return redirect(reverse('user_manager:draw-names'))
         if not draw_service.get_draw_status():
             draw_service.draw_names()
         users = User.objects.filter(userprofile__is_enabled_exchange=True)
