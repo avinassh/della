@@ -1,53 +1,6 @@
 {% extends "base.html" %}
+{% load crispy_forms_tags %}
 
 {% block content %}
-<form class="form-horizontal" action="{% url 'user_manager:mass-email' %}" method="post">
-  {% csrf_token %}
-  <fieldset>
-    <legend>Email Form</legend>
-    <div class="form-group">
-      <label for="id_subject" class="col-lg-2 control-label">Subject</label>
-      <div class="col-lg-10">
-        <input placeholder="Email subject" type="text" class="form-control" id="id_subject" maxlength="200" name="subject" required>
-      </div>
-    </div>
-    <div class="form-group">
-      <label for="id_message" class="col-lg-2 control-label">Message</label>
-      <div class="col-lg-10">
-         <textarea placeholder="Email message" class="form-control" rows="10" name="message" id="id_message" required></textarea>
-      </div>
-    </div>
-    <div class="form-group">
-      <label for="id_recipients" class="col-lg-2 control-label">Recipients</label>
-      <div class="col-lg-10">
-         <textarea class="form-control" rows="10" name="recipients" id="id_recipients"></textarea>
-          <span class="help-block">You can manually add email recipients here. Type one email address per line. Or select any of the following checkboxes</span>
-      </div>
-    </div>
-    <div class="form-group">
-      <div class="col-lg-10 col-lg-offset-2">
-        <div class="checkbox">
-          <label for="id_for_all_active_users">
-            <input type="checkbox" id="id_for_all_active_users" name="for_all_active_users"> All active users <a href="#" data-toggle="tooltip" data-placement="right" title="Email will be sent to all the users have a verified account">(?)</a>
-          </label>
-        </div>
-      </div>
-    </div>
-    <div class="form-group">
-      <div class="col-lg-10 col-lg-offset-2">
-        <div class="checkbox">
-          <label for="id_for_all_enabled_users">
-            <input type="checkbox" id="id_for_all_enabled_users" name="for_all_enabled_users"> All users enabled for exchange <a href="#" data-toggle="tooltip" data-placement="right" title="Email will be sent to all the users who are enabled for exchange">(?)</a>
-          </label>
-        </div>
-      </div>
-    </div>
-    <div class="form-group">
-      <div class="col-lg-10 col-lg-offset-10">
-        <button type="reset" class="btn btn-default">Cancel</button>
-        <button type="submit" class="btn btn-primary">Send Email</button>
-      </div>
-    </div>
-  </fieldset>
-</form>
+{% crispy form %}
 {% endblock %}

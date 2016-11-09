@@ -139,6 +139,34 @@ class MassEmailForm(forms.Form):
     for_all_active_users = forms.BooleanField(required=False)
     for_all_enabled_users = forms.BooleanField(required=False)
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.layout = Layout(
+            Fieldset(
+                'Mass Email',
+                'subject',
+                'message',
+                'recipients',
+                HTML("""
+                <p class="col-lg-offset-2"><span class="help-block">You can
+                manually add email recipients here. Type one email address per
+                line. Or select any one of the following checkboxes to send
+                emails to all the users have a verified account or all the
+                users who are enabled for exchange.</span></p>
+                """),
+                'for_all_active_users',
+                'for_all_enabled_users'
+            )
+        )
+        self.helper.form_class = 'form-horizontal'
+        self.helper.form_method = 'post'
+        self.helper.form_action = 'user_manager:mass-email'
+        self.helper.label_class = 'col-lg-2'
+        self.helper.field_class = 'col-lg-10'
+        self.helper.add_input(Reset('reset', 'Cancel'))
+        self.helper.add_input(Submit('submit', 'Send Email'))
+
     def clean_recipients(self):
         recipients = self.cleaned_data.get('recipients')
         if not recipients:
@@ -159,7 +187,7 @@ class MassEmailForm(forms.Form):
         for_all_enabled_users = cleaned_data['for_all_enabled_users']
         recipients = cleaned_data['recipients']
         if for_all_active_users and for_all_enabled_users:
-            raise forms.ValidationError('You can cannot check both options')
+            raise forms.ValidationError('You cannot check both options')
         if recipients and (for_all_active_users or for_all_enabled_users):
             raise forms.ValidationError('Either enter emails or check one box')
         if recipients:
