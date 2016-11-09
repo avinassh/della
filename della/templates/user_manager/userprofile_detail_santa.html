@@ -1,12 +1,34 @@
-{% extends "base.html" %}
+{% extends "user_manager/userprofile_detail.html" %}
 
 {% block content %}
-
-<h1>{{ object.user.username }} Profile</h1>
-
-<p>{{ object.bio }}</p>
-
-<p>YOU ARE HIS SANTA! You have access to following secret stuff</p>
-
+{{ block.super }}
+<div class="alert alert-info">
+  Hey {{ request.user }}, you are {{ object.user.username }}'s Santa! You have special access to following data.
+</div>
+<a href="{% url 'inbox:santee-detail' %}" class="btn btn-primary"><i class="fa fa-envelope-o" aria-hidden="true"></i> Send a Sneaky message</a>
+<small class="text-muted">When you send a sneaky message, your santee wouldn't know your identity.</small>
+<br><br>
+<table class="table">
+<tr>
+    <td>First Name</td>
+    <td>{{ object.user.first_name }}</td>
+</tr>
+<tr>
+    <td>Last Name</td>
+    <td>{{ object.user.last_name }}</td>
+</tr>
+<tr>
+    <td>Gift Preferences</td>
+    <td>{{ object.preferences }}</td>
+</tr>
+<tr>
+    <td>Address</td>
+    <td>{{ object.address }}</td>
+</tr>
+<tr>
+    <td>Extra Shipping Instructions</td>
+    <td>{{ object.shipping_instructions }}</td>
+</tr>
+</table>
 {% endblock %}
 
