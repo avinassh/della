@@ -5,12 +5,14 @@ from django.utils.decorators import method_decorator
 from django.shortcuts import reverse
 
 from .models import Image
+from .forms import ImageUploadForm
 
 
 @method_decorator(login_required, name='dispatch')
 class ImageUploadView(CreateView):
     model = Image
-    fields = ['file', 'title', 'description']
+    form_class = ImageUploadForm
+    template_name = 'generic_crispy_form_template.html'
 
     def form_valid(self, form):
         image = form.save(commit=False)
