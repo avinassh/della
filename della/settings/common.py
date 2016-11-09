@@ -38,6 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    'crispy_forms',
+
     'della',
     'della.user_manager',
     'della.gallery',
@@ -137,3 +139,7 @@ EMAIL_BACKEND = 'sparkpost.django.email_backend.SparkPostEmailBackend'
 
 # Email verification link expiry (in seconds)
 EMAIL_LINK_EXPIRY_DAYS = 2 * 86400
+
+# Django Crispy forms settings
+CRISPY_TEMPLATE_PACK = 'bootstrap3'
+CRISPY_FAIL_SILENTLY = not DEBUG
