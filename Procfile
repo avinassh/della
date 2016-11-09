@@ -1,1 +1,1 @@
-web: gunicorn nightreads.wsgi --log-file -
+web: gunicorn della.wsgi --log-file -
