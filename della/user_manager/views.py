@@ -105,8 +105,11 @@ class UserProfileDetailView(DetailView):
 
     def render_to_response(self, context, **response_kwargs):
         if self.request.user.is_authenticated():
-            if self.request.user.userprofile.santee.id == self.object.user.id:
-                self.template_name = self.template_name_santa
+            # check if the logged in user has a santee
+            santee = self.request.user.userprofile.santee
+            if santee:
+                if santee.id == self.object.user.id:
+                    self.template_name = self.template_name_santa
         return super().render_to_response(context, **response_kwargs)
 
 
