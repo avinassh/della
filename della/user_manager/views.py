@@ -22,7 +22,7 @@ class SignupView(CreateView):
     model = User
     form_class = SignupForm
     success_url = '/'
-    template_name = 'user_manager/signup.html'
+    template_name = 'generic_crispy_form_template.html'
 
     def form_valid(self, form):
         user = form.save(commit=False)

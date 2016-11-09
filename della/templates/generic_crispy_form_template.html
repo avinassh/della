@@ -1,12 +1,12 @@
 {% extends "base.html" %}
+{% load crispy_forms_tags %}
 
 {% block content %}
   <div class="row">
     <div class="col-md-6">
-      {% include "user_manager/signup_form.html" %}
+      {% crispy form %}
     </div>
     <div class="col-md-6">
     </div>
   </div>
-
 {% endblock %}
