@@ -2,12 +2,12 @@ from django.contrib.auth.models import User
 from django.views import View
 from django.views.generic import DetailView
 from django.views.generic.edit import CreateView, UpdateView, FormView
-from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.contrib.admin.views.decorators import staff_member_required
 from django.utils.decorators import method_decorator
-from django.core.urlresolvers import reverse_lazy
-from django.shortcuts import render, get_object_or_404
+from django.core.urlresolvers import reverse_lazy, reverse
+from django.shortcuts import render, get_object_or_404, redirect
+from django.contrib import messages
 
 from .models import UserProfile
 from .forms import (SignupForm, UserProfileForm, RequestActivationCodeForm,
@@ -30,9 +30,10 @@ class SignupView(CreateView):
         user.save()
         user_service.create_user_profile(user=user)
         user_service.send_activation_email(request=self.request, user=user)
-        response = ('Hey {}! Your account has been created. Please check your '
-                    'email for account activation link.').format(user.username)
-        return HttpResponse(response)
+        m = ('Hey {}! Your account has been created. Please check your '
+             'email for account activation link.').format(user.username)
+        messages.add_message(self.request, messages.SUCCESS, m)
+        return redirect('/')
 
 
 class ActivateView(View):
@@ -40,10 +41,14 @@ class ActivateView(View):
     def get(self, request, username, code):
         user = get_object_or_404(User, username=username)
         if not activation_service.validate_key(key=code, user=user):
-            return HttpResponse('Activation key expired, request a new one.')
+            m = 'Activation key expired, request a new one.'
+            messages.add_message(self.request, messages.ERROR, m)
+            return redirect(reverse('user_manager:activate-request'))
         user_service.activate_user(user=user)
         user_service.enable_for_exchange(user=user)
-        return HttpResponse('Your email is confirmed. Please login.')
+        messages.add_message(self.request, messages.SUCCESS,
+                             'Your email is confirmed. Please login.')
+        return redirect(reverse('user_manager:login'))
 
 
 class RequestActivationEmailView(FormView):
@@ -54,9 +59,14 @@ class RequestActivationEmailView(FormView):
         email = form.cleaned_data['email']
         user = get_object_or_404(User, email=email)
         if user.is_active:
-            return HttpResponse('Account already active.')
+            messages.add_message(
+                self.request, messages.WARNING,
+                'Account already active. Please login')
+            return redirect(reverse('user_manager:login'))
         user_service.send_activation_email(request=self.request, user=user)
-        return HttpResponse('Activation email has been sent.')
+        messages.add_message(self.request, messages.INFO,
+                             'Activation email has been sent.')
+        return redirect('/')
 
 
 @method_decorator(login_required, name='dispatch')
@@ -139,4 +149,6 @@ class MassEmailView(FormView):
         recipients = form.cleaned_data['recipients']
         email_service.send_email(
             subject=subject, message=message, recipient_list=recipients)
-        return HttpResponse('Emails have been sent!')
+        messages.add_message(self.request, messages.SUCCESS,
+                             'Emails have been sent!')
+        return redirect(reverse('user_manager:mass-email'))
