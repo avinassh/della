@@ -15,7 +15,7 @@ urlpatterns = [
     url(r'^activate/(?P<username>[0-9A-Za-z_]+)-(?P<code>[0-9A-Za-z_:-]+)/$',
         ActivateView.as_view(), name='activate-user'),
     url(r'^activate/request/$', RequestActivationEmailView.as_view(),
-        name='activate-user'),
+        name='activate-request'),
     url(r'^draw-names/$', DrawNamesView.as_view(), name='draw-names'),
     url(r'^mass-email/$', MassEmailView.as_view(), name='mass-email'),
     url(r'^@(?P<username>[a-zA-Z0-9_]+)/$', UserProfileDetailView.as_view(),

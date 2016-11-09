@@ -48,7 +48,7 @@ class ActivateView(View):
 
 class RequestActivationEmailView(FormView):
     form_class = RequestActivationCodeForm
-    template_name = 'user_manager/activation_email_request.html'
+    template_name = 'generic_crispy_form_template.html'
 
     def form_valid(self, form):
         email = form.cleaned_data['email']

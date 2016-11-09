@@ -110,6 +110,23 @@ class UserProfileForm(ModelForm):
 
 class RequestActivationCodeForm(ModelForm):
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.layout = Layout(
+            Fieldset(
+                'Request Account Activation Code',
+                'email'
+            )
+        )
+        self.helper.form_class = 'form-horizontal'
+        self.helper.form_method = 'post'
+        self.helper.form_action = 'user_manager:activate-request'
+        self.helper.label_class = 'col-lg-2'
+        self.helper.field_class = 'col-lg-10'
+        self.helper.add_input(Reset('reset', 'Cancel'))
+        self.helper.add_input(Submit('submit', 'Submit'))
+
     class Meta:
         model = User
         fields = ['email']
