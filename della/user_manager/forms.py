@@ -4,6 +4,8 @@ from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from django.core.validators import RegexValidator, validate_email
 from django.conf import settings
+from crispy_forms.helper import FormHelper
+from crispy_forms.layout import Submit, Reset, Layout, Fieldset, HTML
 
 from .models import UserProfile
 
@@ -39,6 +41,46 @@ class SignupForm(UserCreationForm):
 class UserProfileForm(ModelForm):
     first_name = forms.CharField(max_length=30)
     last_name = forms.CharField(max_length=30)
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        # make some fields optional
+        self.fields['shipping_instructions'].required = False
+        self.fields['fb_profile_url'].required = False
+        self.fields['avatar'].required = False
+        self.fields['twitter_profile_url'].required = False
+        self.fields['website_url'].required = False
+        self.fields['wishlist_url'].required = False
+
+        self.helper = FormHelper()
+        self.helper.layout = Layout(
+            Fieldset(
+                'Update Your Profile',
+                'avatar',
+                'bio',
+                'website_url',
+                'fb_profile_url',
+                'twitter_profile_url',
+                'wishlist_url',
+                HTML("""
+                <hr /><p><span class="help-block">Below fields are only visible
+                to your Santa</span></p>
+                """),
+                'first_name',
+                'last_name',
+                'preferences',
+                'address',
+                'shipping_instructions'
+            )
+        )
+        self.helper.form_class = 'form-horizontal'
+        self.helper.form_method = 'post'
+        self.helper.form_action = 'user_manager:account'
+        self.helper.label_class = 'col-lg-2'
+        self.helper.field_class = 'col-lg-10'
+        self.helper.add_input(Reset('reset', 'Cancel'))
+        self.helper.add_input(Submit('submit', 'Submit'))
 
     class Meta:
         model = UserProfile
