@@ -45,7 +45,8 @@ venv/
 db.sqlite3
 .envrc
 staticfiles
-della/media
+della/media/avatars
+della/media/images
 della/static/admin/
 
 # PyCharm
