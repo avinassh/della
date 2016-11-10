@@ -100,7 +100,7 @@ class BaseThreadDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = {}
         context['form'] = self.form_class()
-        context['messages'] = self.object.messages.all()
+        context['thread_messages'] = self.object.messages.all()
         return super().get_context_data(**context)
 
     def _get_thread(self, participant_1, participant_2, santa=None):
@@ -151,7 +151,7 @@ class SantaThreadDetailView(BaseThreadDetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        for message in context['messages']:
+        for message in context['thread_messages']:
             if message.sent_by == self.santa:
                 message.sent_by.username = 'Santa'
         return context
