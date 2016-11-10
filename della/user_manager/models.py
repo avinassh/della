@@ -1,13 +1,7 @@
-import os
-
-from django.conf import settings
 from django.db import models
 from django.contrib.auth.models import User
 
 from della.utils import TimeStampMixin
-
-default_avatar_path = os.path.join(settings.PROJECT_ROOT,
-                                   'static/img/avatar.png')
 
 
 def avatar_file_name(instance, filename):
@@ -31,7 +25,7 @@ class UserProfile(TimeStampMixin):
     website_url = models.URLField(null=True)
     wishlist_url = models.URLField(null=True)
     avatar = models.ImageField(
-        upload_to=avatar_file_name, default=default_avatar_path)
+        upload_to=avatar_file_name, default='avatar.png')
 
     user = models.OneToOneField(User)
     santee = models.OneToOneField(User, related_name='santa', null=True)

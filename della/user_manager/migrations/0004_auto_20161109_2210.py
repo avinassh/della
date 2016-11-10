@@ -16,6 +16,6 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='userprofile',
             name='avatar',
-            field=models.ImageField(default='/Users/avi/Documents/code/della/della/static/img/avatar.png', upload_to=della.user_manager.models.avatar_file_name),
+            field=models.ImageField(default='avatar.png', upload_to=della.user_manager.models.avatar_file_name),
         ),
     ]
