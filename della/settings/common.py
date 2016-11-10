@@ -133,3 +133,7 @@ MESSAGE_TAGS = {message_constants.DEBUG: 'debug',
                 message_constants.SUCCESS: 'success',
                 message_constants.WARNING: 'warning',
                 message_constants.ERROR: 'danger'}
+
+# Default login URL and redirect URLs
+LOGIN_URL = '/login/'
+LOGIN_REDIRECT_URL = '/'
