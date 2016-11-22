@@ -2,6 +2,8 @@
 # `della` and place it in `/etc/nginx/sites-available`
 # and make sure symlink is created in `/etc/nginx/sites-enabled`
 
+# sudo ln -s /etc/nginx/sites-available/backend /etc/nginx/sites-enabled/
+
 upstream django {
     server unix:///tmp/uwsgi.sock;
 }
