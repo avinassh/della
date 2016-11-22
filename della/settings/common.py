@@ -136,3 +136,51 @@ MESSAGE_TAGS = {message_constants.DEBUG: 'debug',
 # Default login URL and redirect URLs
 LOGIN_URL = '/login/'
 LOGIN_REDIRECT_URL = '/'
+
+# Set logger details
+# https://docs.djangoproject.com/en/1.10/topics/logging/
+LOG_DIR = os.path.join(PROJECT_ROOT, 'logs')
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': True,
+    'formatters': {
+        'standard': {
+            'format': '%(levelname)s %(asctime)s %(name)s %(message)s'
+        },
+    },
+    'handlers': {
+        'mail_admins': {
+            'level': 'ERROR',
+            'class': 'django.utils.log.AdminEmailHandler'
+        },
+        'default': {
+            'level': 'DEBUG',
+            'class': 'logging.handlers.RotatingFileHandler',
+            'filename': os.path.join(LOG_DIR, 'django_debug.log'),
+            'maxBytes': 1024 * 1024 * 5,
+            'backupCount': 5,
+            'formatter': 'standard',
+        },
+        'request_handler': {
+            'level': 'DEBUG',
+            'class': 'logging.handlers.RotatingFileHandler',
+            'filename': os.path.join(LOG_DIR, 'django_request.log'),
+            'maxBytes': 1024 * 1024 * 5,
+            'backupCount': 5,
+            'formatter': 'standard',
+        },
+    },
+    'loggers': {
+        '': {
+            'handlers': ['default'],
+            'level': 'DEBUG',
+            'propagate': True
+        },
+        'django.request': {
+            'handlers': ['request_handler', 'mail_admins'],
+            'level': 'DEBUG',
+            'propagate': True
+        },
+    }
+}

@@ -48,6 +48,7 @@ staticfiles
 della/media/avatars
 della/media/images
 della/static/admin/
+della/logs
 
 # PyCharm
 .idea
