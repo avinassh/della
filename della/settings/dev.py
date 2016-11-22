@@ -3,6 +3,9 @@ from .common import *
 INVITE_CODE = 'HAHAHAHAHAHA'
 SENDER_EMAIL = 'admin@secret.santa'
 
+# Sparkpost settings
+SPARKPOST_API_KEY = os.environ['SPARKPOST_API_KEY']
+
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'n$y%cmal2yps%^**#f=1s6f*5)s4xo6*ztddyr=c&3=&o!693w'
 

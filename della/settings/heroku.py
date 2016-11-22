@@ -5,6 +5,9 @@ from .common import *
 
 SECRET_KEY = os.environ['SECRET_KEY']
 INVITE_CODE = os.environ['INVITE_CODE']
+
+# Sparkpost settings
+SPARKPOST_API_KEY = os.environ['SPARKPOST_API_KEY']
 SENDER_EMAIL = os.environ['SENDER_EMAIL']
 
 DEBUG = False

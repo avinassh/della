@@ -11,6 +11,10 @@ DB_SETTINGS = {
 SECRET_KEY = ''
 
 INVITE_CODE = 'HAHAHAHAHAHA'
+
+# Sparkpost settings
+SPARKPOST_API_KEY = ''
+# Email which is used to send emails to participants
 SENDER_EMAIL = 'admin@secret.santa'
 
 ADMINS = (

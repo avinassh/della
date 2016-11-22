@@ -1,5 +1,6 @@
 from .common import *
-from .secret import DB_SETTINGS, SECRET_KEY, INVITE_CODE, SENDER_EMAIL, ADMINS
+from .secret import (DB_SETTINGS, SECRET_KEY, INVITE_CODE, SENDER_EMAIL,
+                     ADMINS, SPARKPOST_API_KEY)
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
