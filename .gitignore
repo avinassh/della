@@ -54,3 +54,4 @@ della/static/admin/
 
 # della
 della/status.json
+della/settings/secret.py
