@@ -6,6 +6,8 @@ Della is written for small communities and I have left out many [optimizations](
 
 There is only one rule while making pairs - santa and santee cannot be same. The code which makes the pairs runs in an infinite while loop and it isn't optimized at all.
 
+[![some fancy math explanation](https://img.youtube.com/vi/5kC5k5QBqcc/0.jpg)](https://www.youtube.com/watch?v=5kC5k5QBqcc)
+
 While [readme](README.md) mentions that users should be in range of 200-250, I don't really have any tests to show that. Thats just a smallish number that came to me when I woke up from my sleep. So Della might work perfectly fine for even more number of users (or may not).
 
 If you are interested in developing a better polynomial time algorithm, read this [paper](https://www.lix.polytechnique.fr/~liberti/sesan.pdf).
