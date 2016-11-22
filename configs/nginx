@@ -4,17 +4,32 @@
 
 # sudo ln -s /etc/nginx/sites-available/backend /etc/nginx/sites-enabled/
 
+# following config assumes that della will be served at `della.avi.im`
+
 upstream django {
     server unix:///tmp/uwsgi.sock;
 }
 
-# configuration of the server
+# redirect all non HTTP requests to HTTPS
 server {
-    # the port your site will be served on
-    listen      80;
+    listen 80;
+    server_name della.avi.im;
+    return 301 https://$host$request_uri;
+}
+
+# configuration of the HTTPS server
+server {
+    listen 443 ssl;
+
     # the domain name it will serve for
-    server_name della.com; # substitute your machine's IP address or FQDN
-    charset     utf-8;
+    server_name della.avi.im; # substitute your machine's IP address or FQDN
+
+    # SSL Cert settings
+    ssl_certificate /etc/letsencrypt/live/della.avi.im/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/della.avi.im/privkey.pem;
+    add_header Strict-Transport-Security "max-age=31536000; includeSubdomains" always;
+
+    charset utf-8;
 
     # max upload size
     client_max_body_size 10M;   # adjust to taste
@@ -31,6 +46,6 @@ server {
 
     location / {
         uwsgi_pass  django;
-        include     uwsgi_params; # the uwsgi_params file you installed
+        include uwsgi_params; # the uwsgi_params file you installed
     }
 }

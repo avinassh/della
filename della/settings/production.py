@@ -15,3 +15,7 @@ DATABASES = {
 }
 
 DATABASES['default'].update(DB_SETTINGS)
+
+# SSL Settings
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
