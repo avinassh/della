@@ -10,8 +10,6 @@ Della is a Django app for managing Secret Santa/Gift Exchange.
 
 ## Deployment
 
-[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
-
 1. Clone the repo and rename/copy `della/settings/sample_secret.py` to `della/settings/secret.py` and set the variables appropriately.
 
 2. Install the requirements 
