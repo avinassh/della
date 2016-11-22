@@ -27,7 +27,6 @@ server {
     # SSL Cert settings
     ssl_certificate /etc/letsencrypt/live/della.avi.im/fullchain.pem;
     ssl_certificate_key /etc/letsencrypt/live/della.avi.im/privkey.pem;
-    add_header Strict-Transport-Security "max-age=31536000; includeSubdomains" always;
 
     charset utf-8;
 
