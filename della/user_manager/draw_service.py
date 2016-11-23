@@ -56,27 +56,8 @@ def draw_names():
 
 
 def make_pairs(user_ids):
-    while True:
-        pairs = _get_pairs(user_ids=user_ids)
-        if _is_valid_pair(pairs=pairs):
-            break
-    return dict(pairs)
-
-
-def _get_pairs(user_ids):
     user_ids_copy = user_ids.copy()
     random.shuffle(user_ids_copy)
-    pairs = deque(user_ids_copy)
-    pairs.rotate()
-    return list(zip(user_ids, user_ids_copy))
-
-
-def _is_valid_pair(pairs):
-    """
-    Checks if the pair and list of pairs is valid. A pair is invalid if both
-    santa and santee are same i.e. (1, 1)
-    """
-    for pair in pairs:
-        if pair[0] == pair[1]:
-            return False
-    return True
+    user_ids_rotated = deque(user_ids_copy)
+    user_ids_rotated.rotate()
+    return dict(zip(user_ids_rotated, user_ids_copy))
