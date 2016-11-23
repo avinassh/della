@@ -4,7 +4,7 @@
 
 Della is written for small communities and I have left out many [optimizations](https://en.wikipedia.org/wiki/Program_optimization) because they are not at all required when number of users is small. (In future, I _might_ make changes and make it better for large number of users.)
 
-There is only one rule while making pairs - santa and santee cannot be same. The code which makes the pairs runs in an infinite while loop and it isn't optimized at all.
+There is only one rule while making pairs - santa and santee cannot be same. If you add more rules, then it will take a lot of time to make pairs (since it has to generate pairs and make sure they are valid). Also, pairs not made in background job (using Celery etc).
 
 [![some fancy math explanation](https://img.youtube.com/vi/5kC5k5QBqcc/0.jpg)](https://www.youtube.com/watch?v=5kC5k5QBqcc)
 
