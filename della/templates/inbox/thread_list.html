@@ -8,7 +8,7 @@
 {% for thread in sneaky_list %}
   <a href="{{ thread.url }}" class="list-group-item">
   <span class="name" style="min-width: 120px; display: inline-block;">{{ thread.title }}</span>
-  <!-- <span>Display first few chars of latest message</span> -->
+  <span>{{ thread.latest_message.text | truncatechars:50 }}</span>
   <span class="badge">{{ thread.last_message_time }}</span> <span class="pull-right"></span></a>
 {% empty %}
   <p>You don't have any sneaky messages.</p>
@@ -20,7 +20,7 @@
 {% for thread in object_list %}
   <a href="{% url 'inbox:thread-detail' thread.recipient %}" class="list-group-item">
   <span class="name" style="min-width: 120px; display: inline-block;">{{ thread.recipient }}</span>
-  <!-- <span>Display first few chars of latest message</span> -->
+  <span>{{ thread.latest_message.text | truncatechars:50 }}</span>
   <span class="badge">{{ thread.last_message_time }}</span> <span class="pull-right"></span></a>
 {% empty %}
   <p>...</p>

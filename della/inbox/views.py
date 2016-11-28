@@ -57,8 +57,8 @@ class ThreadListView(ListView):
 
     def get_queryset(self):
         user = self.request.user
-        return Thread.objects.filter(Q(participant_1=user) | Q(
-            participant_2=user)).annotate(
+        return Thread.objects.prefetch_related('messages').filter(
+            Q(participant_1=user) | Q(participant_2=user)).annotate(
             last_message_time=Max('messages__created_on')).order_by(
                 '-last_message_time')
 
@@ -68,6 +68,10 @@ class ThreadListView(ListView):
         object_list = []
         sneaky_list = []
         for obj in context['object_list']:
+            try:
+                obj.latest_message = obj.messages.latest('created_on')
+            except Message.DoesNotExist:
+                continue
             if obj.is_sneaky:
                 sneaky_list.append(self._get_sneaky_context(thread=obj))
             else:
@@ -79,12 +83,8 @@ class ThreadListView(ListView):
         return context
 
     def _get_sneaky_context(self, thread):
-        sender = self.request.user
         if thread.santa == self.request.user:
-            recipient = inbox_service.get_recipient(
-                thread=thread, sender=sender)
-            thread.title = 'Santee Messages - {}'.format(
-                recipient.username)
+            thread.title = 'Santee Messages'
             thread.url = reverse('inbox:santee-detail')
         else:
             thread.title = 'Santa Messages'
