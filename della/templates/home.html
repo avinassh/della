@@ -4,10 +4,9 @@
 {% block content %}
   <div class="jumbotron">
     <h1>Secret Santa</h1>
-    <p>And it works</p>
   </div>
 
- {% if not user.is_authenticated %}
+ {% block home_page_container %}
   <div class="row">
     <div class="col-md-6">
       {% crispy form %}
@@ -16,5 +15,5 @@
       {% include "user_manager/login_form.html" %}
     </div>
   </div>
-{% endif %}
+ {% endblock%}
 {% endblock %}

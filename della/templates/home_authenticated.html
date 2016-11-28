@@ -1,0 +1,51 @@
+{% extends "home.html" %}
+
+{% block home_page_container %}
+{% if not user.is_staff %}
+  <div class="row">
+    <div class="col-md-6">
+      <div class="panel panel-info">
+        <div class="panel-heading">
+          <h3 class="panel-title">Important dates</h3>
+        </div>
+        <div class="panel-body">
+          <table class="table table-striped table-hover ">
+            <tbody>
+              <tr>
+                <td>Last date to sign up</td>
+                <td>05/Dec/2016</td>
+              </tr>
+              <tr>
+                <td>Day of matching</td>
+                <td>05/Dec/2016</td>
+              </tr>
+              <tr>
+                <td>Last date to ship</td>
+                <td>20/Dec/2016</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="panel panel-info">
+        <div class="panel-heading">
+          <h3 class="panel-title">Your Santee details</h3>
+        </div>
+        <div class="panel-body">
+          {% if user.userprofile.santee %}
+            <p>Dear {{ user.username }}, your santee is <strong>{{ user.userprofile.santee }}</strong>.</p>
+            <ul>
+              <li>Click <a href="{% url 'user_manager:user-detail' user.userprofile.santee.username %}">here</a> to check their Gift preferences and address</li>
+              <li>Click <a href="{% url 'inbox:santee-detail' %}">here</a> to send them a sneaky message</li>
+            </ul>
+          {% else %}
+            Oops, No santee! Looks like admin hasn't drawn names...yet!
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+{% endif %}
+{% endblock %}
