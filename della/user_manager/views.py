@@ -9,13 +9,14 @@ from django.core.urlresolvers import reverse_lazy, reverse
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib import messages
 
+from della.email_service import send_email
+
 from .models import UserProfile
 from .forms import (SignupForm, UserProfileForm, RequestActivationCodeForm,
                     MassEmailForm)
 from . import user_service
 from . import draw_service
 from . import activation_service
-from . import email_service
 
 
 class SignupView(CreateView):
@@ -156,8 +157,7 @@ class MassEmailView(FormView):
         message = form.cleaned_data['message']
         subject = form.cleaned_data['subject']
         recipients = form.cleaned_data['recipients']
-        email_service.send_email(
-            subject=subject, message=message, recipient_list=recipients)
+        send_email(subject=subject, message=message, recipient_list=recipients)
         messages.add_message(self.request, messages.SUCCESS,
                              'Emails have been sent!')
         return redirect(reverse('user_manager:mass-email'))

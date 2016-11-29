@@ -1,8 +1,9 @@
 from django.template.loader import render_to_string
 from django.core.urlresolvers import reverse
 
+from della.email_service import send_email
+
 from .models import UserProfile
-from . import email_service
 from . import activation_service
 
 
@@ -36,5 +37,4 @@ def send_activation_email(request, user):
     context = {'url': activation_url, 'username': user.username}
     message = render_to_string(template_name=message_template, context=context)
     subject = render_to_string(template_name=subject_temaplte)
-    email_service.send_email(subject=subject, message=message,
-                             recipient_list=[user.email])
+    send_email(subject=subject, message=message, recipient_list=[user.email])
