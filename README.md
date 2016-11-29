@@ -1,13 +1,13 @@
 # della
 
-Della is a Django app for managing Secret Santa/Gift Exchange. It is written for small communities where participants are in range of 200-250 but not more ([Why so?](more.md#why-not-large-number-of-users)).
+Della is a Django app for managing Secret Santa/Gift Exchange. It is written for small communities where participants are in the range of 200-250 but not more ([Why so?](more.md#why-not-large-number-of-users)).
 
 ## Features
 
-Della has very limited set of features, however if you need some extra feature then feel free to [tweet me](https://twitter.com/iavins) and I _might_ consider adding it.
+Della has very limited set of features, however, if you need some extra feature then feel free to [tweet me](https://twitter.com/iavins) and I _might_ consider adding it.
 
 - User signup (with invite code)
-- Messaging and secret/sneaky messaging
+- Messaging and secret/sneaky messaging (with email notifications)
 - Gallery
 - Admin features - Drawing names, Sending mass emails
 
@@ -17,6 +17,7 @@ Della has very limited set of features, however if you need some extra feature t
 - Python 3.5
 - PostgreSQL (or [MySQL](more.md#using-mysql))
 - nginx
+- supervisord
 
 ### Other requirements
 
@@ -38,6 +39,19 @@ These settings are to be set in `della/settings/secret.py` as `SPARKPOST_API_KEY
 
 4. Setup uWSGI (use `configs/uwsgi.conf`)
 
+5. Setup supervisord (use `configs/supervisor.conf`)
+
+Once everything is setup, CD into della directory and run following:
+
+    pip3 install -r requirements.txt
+    python3 manage.py migrate --settings=della.settings.production
+    python3 manage.py collectstatic --settings=della.settings.production --noinput
+    python3 manage.py createsuperuser --settings=della.settings.production
+    python3 manage.py makemigrations background_task --settings=della.settings.production
+    python3 manage.py migrate --settings=della.settings.production
+    systemctl start della.uwsgi.service
+    supervisorctl start della_background_tasks
+
 ## To Do
 
 - Add tests
@@ -50,6 +64,19 @@ These settings are to be set in `della/settings/secret.py` as `SPARKPOST_API_KEY
 
 The name Della comes from O. Henry's short story [The Gift of the Magi](http://www.gutenberg.org/files/7256/7256-h/7256-h.htm).
 
+## Send me love
+
+You will probably going to use a VPS to host Della, please consider using any of the following referral links:
+
+- [Digital Ocean](https://m.do.co/c/6eae876c2650)
+- [Vultr](http://www.vultr.com/?ref=7047034)
+- [Ramnode](https://clientarea.ramnode.com/aff.php?aff=1647)
+
+Or some bitcoins: `1LAmWUmdu1r1KLQrcZ2uK6r5P7xx5gRmnW`. Thank you! 🎅
+
+## Contributing
+
+Check the logged [issues](https://github.com/avinassh/della/issues?q=is%3Aissue+is%3Aopen+label%3Aenhancement) with tag `enhancement`. Do submit a new issue if you have any UI/UX suggestion.
 
 ## License
 
