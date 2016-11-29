@@ -15,7 +15,7 @@ Della has very limited set of features, however if you need some extra feature t
 ## System Requirements
 
 - Python 3.5
-- MySQL (or [PostgreSQL](more.md#using-postgresql))
+- PostgreSQL (or [MySQL](more.md#using-mysql))
 - nginx
 
 ### Other requirements

@@ -27,20 +27,20 @@ Admin can send mass emails and also draw names. Do note that when you create an 
         sudo apt-get install libjpeg8-dev
 
 
-## Using PostgreSQL
+## Using MySQL
 
-If you want to use Postgres instead of MySQL, then you need to make following changes:
+If you want to use MySQL instead of Postgres, then you need to make following changes:
 
-1. Install `psycopg2`:
+1. Install `mysqlclient`:
 
-        pip3 install psycopg2
+        pip3 install mysqlclient
 
-2. Update settings file `della/settings/production.py` to use Postgres driver: 
+2. Update settings file `della/settings/production.py` to use MySQL driver:
 
     ```python
     DATABASES = {
         'default': {
-            'ENGINE': 'django.db.backends.postgresql',
+            'ENGINE': 'django.db.backends.mysql',
         }
     }
     ```
