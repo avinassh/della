@@ -11,6 +11,9 @@ Della has very limited set of features, however, if you need some extra feature 
 - Gallery
 - Admin features - Drawing names, Sending mass emails
 
+## Screenshots
+
+Check [here](http://avi.im/della/#screenshots).
 
 ## System Requirements
 
