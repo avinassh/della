@@ -11,6 +11,7 @@ from django.utils.formats import date_format
 from .forms import MessageCreateForm
 from .models import Message, Thread
 from . import inbox_service
+from . import tasks
 
 
 @method_decorator(login_required, name='dispatch')
@@ -33,6 +34,9 @@ class MessageCreateView(CreateView):
         message.thread = self.thread
         super().form_valid(form)
         response = self._get_response()
+        base_site_url = self.request.build_absolute_uri('/')
+        tasks.send_email_notification(
+            message_id=self.object.id, base_site_url=base_site_url)
         return JsonResponse(response)
 
     def _validate_and_get_thread(self, thread_id):

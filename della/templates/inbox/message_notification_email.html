@@ -1,0 +1,13 @@
+Hey {{ recipient }}!
+
+You received a new message from <strong>{{ sender }}</strong>:
+
+{{ message }}
+
+---
+
+{% autoescape off %}
+Click here to check the message and reply - <a href="{{ url }}">link</a>
+
+If above link is not working, use this - {{ url }}
+{% endautoescape %}
