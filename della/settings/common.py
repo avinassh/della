@@ -33,6 +33,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'crispy_forms',
+    'background_task',
 
     'della',
     'della.user_manager',
@@ -136,6 +137,10 @@ MESSAGE_TAGS = {message_constants.DEBUG: 'debug',
 # Default login URL and redirect URLs
 LOGIN_URL = '/login/'
 LOGIN_REDIRECT_URL = '/'
+
+# Django Background task setttings
+INBOX_EMAIL_NOTIFICATION_QUEUE = 'inbox'
+ACCOUNT_REGISTRATION_EMAIL_QUEUE = 'account-registration'
 
 # Set logger details
 # https://docs.djangoproject.com/en/1.10/topics/logging/

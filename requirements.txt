@@ -6,3 +6,4 @@ django-crispy-forms==1.6.1
 mysqlclient==1.3.9
 uWSGI==2.0.14
 gevent==1.1.2
+django-background-tasks==1.0.15
