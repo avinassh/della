@@ -105,7 +105,7 @@ class UserProfileDetailView(DetailView):
         return get_object_or_404(UserProfile, user__username=username)
 
     def render_to_response(self, context, **response_kwargs):
-        if self.request.user.is_authenticated():
+        if self.request.user.is_authenticated:
             # check if the logged in user has a santee
             santee = self.request.user.userprofile.santee
             if santee:

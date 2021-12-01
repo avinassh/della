@@ -10,7 +10,7 @@ class HomePageView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        if self.request.user.is_authenticated():
+        if self.request.user.is_authenticated:
             self.template_name = self.template_name_authenticated
             return context
         context['form'] = SignupForm()
