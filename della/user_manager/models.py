@@ -27,8 +27,8 @@ class UserProfile(TimeStampMixin):
     avatar = models.ImageField(
         upload_to=avatar_file_name, default='avatar.png')
 
-    user = models.OneToOneField(User)
-    santee = models.OneToOneField(User, related_name='santa', null=True)
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    santee = models.OneToOneField(User, on_delete=models.CASCADE,  related_name='santa', null=True)
 
     def __str__(self):
         return self.user.username
