@@ -5,6 +5,8 @@ from .views import (SignupView, UserProfileUpdateView, DrawNamesView,
                     UserProfileDetailView, ActivateView,
                     RequestActivationEmailView, MassEmailView)
 
+app_name = 'user_manager'
+
 urlpatterns = [
     path('login/', auth_views.login, name='login',
         kwargs={'template_name': 'user_manager/login.html'}),

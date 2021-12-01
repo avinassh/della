@@ -3,6 +3,8 @@ from django.urls import path, re_path
 from .views import (MessageCreateView, ThreadDetailView, ThreadListView,
                     SantaThreadDetailView, SanteeThreadDetailView)
 
+app_name = 'inbox'
+
 urlpatterns = [
     re_path(r'^@(?P<recipient>[a-zA-Z0-9_]+)/$', ThreadDetailView.as_view(),
         name='thread-detail'),
