@@ -8,9 +8,9 @@ from .views import (SignupView, UserProfileUpdateView, DrawNamesView,
 app_name = 'user_manager'
 
 urlpatterns = [
-    path('login/', auth_views.login, name='login',
-        kwargs={'template_name': 'user_manager/login.html'}),
-    path('logout/', auth_views.logout, name='logout',
+    path('login/', auth_views.LoginView.as_view(template_name="user_manager/login.html"), name='login',
+        ),
+    path('logout/', auth_views.LogoutView, name='logout',
         kwargs={'next_page': '/'}),
     path('signup/', SignupView.as_view(), name='signup'),
     path('account/', UserProfileUpdateView.as_view(), name='account'),
