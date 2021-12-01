@@ -1,9 +1,9 @@
-from django.conf.urls import url
+from django.urls import path
 
 from .views import ImageUploadView, ImageDetailView, ImageListView
 
 urlpatterns = [
-    url(r'^upload/$', ImageUploadView.as_view(), name='upload'),
-    url(r'^(?P<pk>\d+)/$', ImageDetailView.as_view(), name='image-detail'),
-    url(r'^$', ImageListView.as_view(), name='image-list')
+    path('upload/', ImageUploadView.as_view(), name='upload'),
+    path('<int:pk>/', ImageDetailView.as_view(), name='image-detail'),
+    path('', ImageListView.as_view(), name='image-list')
 ]

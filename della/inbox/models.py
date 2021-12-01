@@ -14,14 +14,14 @@ class Thread(TimeStampMixin):
     is_sneaky = models.BooleanField(default=False)
 
     participant_1 = models.ForeignKey(
-        User, related_name='participant_1_threads')
+        User, on_delete=models.CASCADE,  related_name='participant_1_threads')
     participant_2 = models.ForeignKey(
-        User, related_name='participant_2_threads')
-    santa = models.ForeignKey(User, null=True, related_name='santa_threads')
+        User, on_delete=models.CASCADE,  related_name='participant_2_threads')
+    santa = models.ForeignKey(User, on_delete=models.CASCADE,  null=True, related_name='santa_threads')
 
 
 class Message(TimeStampMixin):
     text = models.TextField()
 
-    sent_by = models.ForeignKey(User)
-    thread = models.ForeignKey(Thread, related_name='messages')
+    sent_by = models.ForeignKey(User, on_delete=models.CASCADE)
+    thread = models.ForeignKey(Thread, on_delete=models.CASCADE,  related_name='messages')

@@ -13,7 +13,7 @@ Including another URLconf
     1. Import the include() function: from django.conf.urls import url, include
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
-from django.conf.urls import url, include
+from django.urls import include, path
 from django.contrib import admin
 from django.conf import settings
 from django.conf.urls.static import static
@@ -21,14 +21,14 @@ from django.conf.urls.static import static
 from .views import HomePageView
 
 urlpatterns = [
-    url(r'^gallery/', include(
+    path('gallery/', include(
         'della.gallery.urls', namespace='gallery')),
-    url(r'^messages/', include(
+    path('messages/', include(
         'della.inbox.urls', namespace='inbox')),
-    url(r'^', include(
+    path('', include(
         'della.user_manager.urls', namespace='user_manager')),
-    url(r'^$', HomePageView.as_view()),
-    url(r'^admin/', admin.site.urls),
+    path('', HomePageView.as_view()),
+    path('admin/', admin.site.urls),
 ]
 
 if settings.DEBUG:

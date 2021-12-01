@@ -8,4 +8,4 @@ class Image(TimeStampMixin):
     file = models.ImageField(upload_to='images/%Y/%m/%d')
     title = models.CharField(max_length=300)
     description = models.TextField(null=True)
-    added_by = models.ForeignKey(User)
+    added_by = models.ForeignKey(User, on_delete=models.CASCADE)
