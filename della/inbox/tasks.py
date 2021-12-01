@@ -1,7 +1,7 @@
 from urllib.parse import urljoin
 from django.conf import settings
 from django.template.loader import render_to_string
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 
 from background_task import background
 

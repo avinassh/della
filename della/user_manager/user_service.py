@@ -1,5 +1,5 @@
 from django.template.loader import render_to_string
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 
 from della.email_service import send_email
 
