@@ -10,7 +10,7 @@ app_name = 'user_manager'
 urlpatterns = [
     path('login/', auth_views.LoginView.as_view(template_name="user_manager/login.html"), name='login',
         ),
-    path('logout/', auth_views.LogoutView, name='logout',
+    path('logout/', auth_views.LogoutView.as_view(), name='logout',
         kwargs={'next_page': '/'}),
     path('signup/', SignupView.as_view(), name='signup'),
     path('account/', UserProfileUpdateView.as_view(), name='account'),
